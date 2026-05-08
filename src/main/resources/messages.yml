@@ -1,0 +1,113 @@
+# ═══════════════════════════════════════════
+#   BedWarsX — Mensagens (PT-BR)
+# ═══════════════════════════════════════════
+
+prefix: "&8[&6✦ BedWarsX&8] &r"
+
+# ─── Geral ────────────────────────────────
+sem-permissao: "&cVocê não tem permissão para isso."
+apenas-jogadores: "&cApenas jogadores podem usar esse comando."
+jogador-nao-encontrado: "&cJogador &e{jogador} &cnão encontrado."
+uso-invalido: "&cUso inválido. Use &e{uso}&c."
+recarga-sucesso: "&aPlugin recarregado com sucesso!"
+
+# ─── Arena ────────────────────────────────
+arena-nao-encontrada: "&cArena &e{arena} &cnão encontrada."
+arena-cheia: "&cEssa arena está cheia!"
+arena-em-jogo: "&cEssa arena já está em jogo."
+arena-nao-configurada: "&cEssa arena ainda não foi configurada."
+arena-criada: "&aArena &e{arena} &acriada com sucesso!"
+arena-deletada: "&aArena &e{arena} &adeletada."
+arena-ja-existe: "&cJá existe uma arena com o nome &e{arena}&c."
+arena-habilitada: "&aArena &e{arena} &aestá pronta para uso!"
+arena-incompleta: "&cArena incompleta! Verifique: lobby, spawns e camas de todos os times."
+
+# ─── Jogo ─────────────────────────────────
+entrou-arena: "&aVocê entrou na arena &e{arena}&a!"
+saiu-arena: "&aVocê saiu da arena."
+jogo-iniciando: "&eJogo iniciando em &6{tempo} &esegundo{plural}!"
+jogo-iniciado: "&a&lO jogo começou! &7Defenda sua cama e destrua a dos inimigos!"
+jogadores-insuficientes: "&cJogadores insuficientes. Contagem cancelada."
+ja-em-jogo: "&cVocê já está em uma partida! Use &e/bw sair &cprimeiro."
+nao-em-jogo: "&cVocê não está em nenhuma partida."
+sem-arenas-disponiveis: "&cNenhuma arena disponível no momento."
+
+# ─── Times ────────────────────────────────
+time-atribuido: "&7Você foi adicionado ao time: {cor}{time}&7!"
+time-eliminado: "&c&l{time} &7foi eliminado!"
+
+# ─── Cama ─────────────────────────────────
+cama-destruida-broadcast: "{cor_time}{time}&r &7teve sua cama destruída por &e{jogador}&7!"
+cama-destruida-vitima: "&c&lSUA CAMA FOI DESTRUÍDA! &7Você não vai mais renascer."
+cama-propria: "&cVocê não pode quebrar a própria cama!"
+sem-cama-respawn: "&cSua cama foi destruída &8— &csem mais chances de renascer!"
+
+# ─── Morte ────────────────────────────────
+morte-por-jogador: "&e{vitima} &7foi eliminado por &e{matador}&7! &8[{kills} abates]"
+morte-por-vazio: "&e{vitima} &7caiu no vazio!"
+morte-final: "&c&l✦ ABATE FINAL! &e{matador} &7eliminou &e{vitima} &7definitivamente!"
+renascendo-em: "&cRenascendo em &e{tempo}s&c..."
+renasceu: "&aVocê renasceu!"
+
+# ─── Fim de jogo ──────────────────────────
+vencedor: "{cor}{time} &avenceu o jogo!"
+empate: "&7O jogo terminou em empate."
+voltando-lobby: "&7Retornando ao lobby em &e{tempo}s&7..."
+partida-encerrada: "&cA partida foi encerrada por um administrador."
+
+# ─── Spectator ────────────────────────────
+modo-spectator: "&7Você agora está &bespectando &7essa partida."
+spec-nao-disponivel: "&cNão há partida ativa nessa arena."
+
+# ─── NPC ──────────────────────────────────
+npc-criado: "&aNPC &e{id} &acriado com sucesso!"
+npc-deletado: "&aNPC &e{id} &adeletado."
+npc-nao-encontrado: "&cNPC &e{id} &cnão encontrado."
+npc-skin-atualizada: "&aSkin do NPC &e{id} &aatualizada!"
+
+# ─── Admin ────────────────────────────────
+adm-spawn-set: "&aSpawn do time &e{time} &adefinido!"
+adm-cama-set: "&aCama do time &e{time} &adefinida!"
+adm-lobby-set: "&aLobby da arena &e{arena} &adefinido!"
+adm-lobby-principal-set: "&aLobby principal definido na sua posição!"
+adm-gerador-add: "&aGerador de &e{tipo} &aadicionado!"
+adm-time-add: "&aTime &e{time} &aadicionado à arena &e{arena}&a!"
+adm-force-start: "&aPartida forçada na arena &e{arena}&a!"
+adm-force-stop: "&cPartida encerrada na arena &e{arena}&c."
+adm-configurando: "&aVocê está configurando a arena &e{arena}&a. Use &e/bw adm &apara gerenciar."
+
+# ─── Compras ──────────────────────────────
+compra-sucesso: "&aComprado: &f{item}"
+sem-recursos: "&cVocê precisa de &e{quantidade} &e{recurso}&c! Você tem &e{atual}&c."
+inventario-cheio: "&cInventário cheio! O item foi dropado no chão."
+
+# ─── Itens Experimentais ──────────────────
+rewind-cooldown: "&cAguarde &e{tempo}s &cpara usar novamente."
+rewind-sem-estado: "&cNenhum estado seguro para rebobinar."
+rewind-void: "&cNão é possível usar no void!"
+rewind-ativado: "&d&l⏮ REBOBINADO! &7Voltou 3 segundos."
+rewind-pronto: "&d🔮 Rebobinar: &aPronto!"
+rewind-cooldown-bar: "&d🔮 Rebobinar: &e{tempo}s"
+
+slingshot-cooldown-bar: "&a🪃 Estilingue: &e{tempo}s"
+slingshot-pronto: "&a🪃 Estilingue: &aPronto!"
+slingshot-cooldown-bloq: "&cAguarde o estilingue recarregar!"
+
+fireball-usado: "&c💣 &fFireball Jump!"
+
+# ─── Upgradeias de Time ───────────────────
+upgrade-comprado: "&aUpgrade &e{upgrade} &acomprado para o time!"
+upgrade-sem-recursos: "&cSem recursos para comprar esse upgrade."
+upgrade-ja-maximo: "&cEsse upgrade já está no nível máximo."
+
+# ─── Estatísticas ─────────────────────────
+stats-titulo: "&6&l━━━ Estatísticas: &e{jogador} &6&l━━━"
+stats-vitorias: "  &fVitórias: &a{valor}"
+stats-derrotas: "  &fDerrotas: &c{valor}"
+stats-abates: "  &fAbates: &e{valor}"
+stats-mortes: "  &fMortes: &e{valor}"
+stats-abates-finais: "  &fAbates Finais: &e{valor}"
+stats-camas: "  &fCamas Quebradas: &e{valor}"
+stats-kdr: "  &fK/D: &e{valor}"
+stats-winrate: "  &fTaxa de Vitória: &e{valor}%"
+stats-partidas: "  &fPartidas: &e{valor}"

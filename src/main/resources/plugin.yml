@@ -1,0 +1,134 @@
+name: BedWarsX
+version: ${project.version}
+main: dev.bedwarsx.main.BedWarsX
+api-version: 1.8
+author: BedWarsX Team
+description: Plugin profissional de BedWars para Paper 1.8.9
+
+commands:
+  bw:
+    description: Comando principal do BedWarsX
+    aliases: [bedwars, bwx]
+    usage: /bw [subcomando]
+  bwadm:
+    description: Painel administrativo do BedWarsX
+    aliases: [bedwarsadm]
+    usage: /bwadm
+    permission: bedwarsx.admin.gui
+
+permissions:
+  bedwarsx.admin:
+    description: Acesso total ao BedWarsX
+    default: op
+    children:
+      bedwarsx.admin.gui: true
+      bedwarsx.admin.reload: true
+      bedwarsx.arena.criar: true
+      bedwarsx.arena.deletar: true
+      bedwarsx.arena.editar: true
+      bedwarsx.arena.ver: true
+      bedwarsx.arena.forcar.inicio: true
+      bedwarsx.arena.forcar.fim: true
+      bedwarsx.npc.criar: true
+      bedwarsx.npc.deletar: true
+      bedwarsx.npc.editar: true
+      bedwarsx.stats.resetar: true
+      bedwarsx.stats.outros: true
+      bedwarsx.bypass.cooldown: true
+      bedwarsx.bypass.protecao: true
+      bedwarsx.jogar: true
+      bedwarsx.spectator: true
+      bedwarsx.stats.ver: true
+      bedwarsx.vip: true
+      bedwarsx.vip.entrar.cheio: true
+      bedwarsx.shop.experimental: true
+  bedwarsx.vip:
+    description: Beneficios VIP
+    default: false
+    children:
+      bedwarsx.jogar: true
+      bedwarsx.spectator: true
+      bedwarsx.stats.ver: true
+      bedwarsx.vip.entrar.cheio: true
+      bedwarsx.vip.cosmetico: true
+      bedwarsx.shop.experimental: true
+      bedwarsx.shop.desconto.vip: true
+  bedwarsx.mvp:
+    description: Beneficios MVP
+    default: false
+    children:
+      bedwarsx.vip: true
+      bedwarsx.mvp.cosmetico: true
+      bedwarsx.mvp.trail: true
+  bedwarsx.admin.gui:
+    description: Abrir painel admin
+    default: op
+  bedwarsx.admin.reload:
+    description: Recarregar plugin
+    default: op
+  bedwarsx.jogar:
+    description: Jogar BedWars
+    default: true
+  bedwarsx.spectator:
+    description: Assistir partidas
+    default: true
+  bedwarsx.stats.ver:
+    description: Ver proprias stats
+    default: true
+  bedwarsx.stats.outros:
+    description: Ver stats de outros
+    default: op
+  bedwarsx.stats.resetar:
+    description: Resetar stats
+    default: op
+  bedwarsx.vip.entrar.cheio:
+    description: Entrar em arenas cheias
+    default: false
+  bedwarsx.vip.cosmetico:
+    description: Cosmeticos VIP
+    default: false
+  bedwarsx.mvp.cosmetico:
+    description: Cosmeticos MVP
+    default: false
+  bedwarsx.mvp.trail:
+    description: Trails de particula
+    default: false
+  bedwarsx.shop.experimental:
+    description: Loja experimental
+    default: false
+  bedwarsx.shop.desconto.vip:
+    description: Desconto VIP na loja
+    default: false
+  bedwarsx.bypass.cooldown:
+    description: Ignorar cooldowns
+    default: op
+  bedwarsx.bypass.protecao:
+    description: Ignorar protecao lobby
+    default: op
+  bedwarsx.arena.criar:
+    description: Criar arenas
+    default: op
+  bedwarsx.arena.deletar:
+    description: Deletar arenas
+    default: op
+  bedwarsx.arena.editar:
+    description: Editar arenas
+    default: op
+  bedwarsx.arena.ver:
+    description: Ver info de arenas
+    default: op
+  bedwarsx.arena.forcar.inicio:
+    description: Forcar inicio de partida
+    default: op
+  bedwarsx.arena.forcar.fim:
+    description: Forcar fim de partida
+    default: op
+  bedwarsx.npc.criar:
+    description: Criar NPCs
+    default: op
+  bedwarsx.npc.deletar:
+    description: Deletar NPCs
+    default: op
+  bedwarsx.npc.editar:
+    description: Editar NPCs
+    default: op

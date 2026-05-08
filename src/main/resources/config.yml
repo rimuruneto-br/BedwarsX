@@ -1,0 +1,98 @@
+# BedWarsX Configuration
+prefix: "&8[&6BedWarsX&8] &r"
+
+lobby:
+  world: "lobby"
+  x: 0.5
+  y: 64.0
+  z: 0.5
+  yaw: 0.0
+  pitch: 0.0
+
+database:
+  type: SQLITE  # SQLITE or MYSQL
+  host: localhost
+  port: 3306
+  database: bedwarsx
+  username: root
+  password: ""
+
+scoreboard:
+  enabled: true
+  update-interval: 10  # ticks
+
+nametag:
+  enabled: true
+
+countdown:
+  waiting: 30
+  starting: 10
+
+game:
+  min-players: 2
+  max-players-per-team: 4
+  respawn-time: 5
+  spectator-mode: true
+
+shop:
+  experimental:
+    enabled: true
+    rewind:
+      cost: 12
+      currency: EMERALD
+    fireball-jump:
+      cost: 8
+      currency: GOLD_INGOT
+    slingshot:
+      cost: 6
+      currency: IRON_INGOT
+
+teams:
+  RED:
+    display: "&cRed"
+    color: RED
+    wool-color: 14
+  BLUE:
+    display: "&9Blue"
+    color: BLUE
+    wool-color: 11
+  GREEN:
+    display: "&aGreen"
+    color: GREEN
+    wool-color: 13
+  YELLOW:
+    display: "&eYellow"
+    color: YELLOW
+    wool-color: 4
+  AQUA:
+    display: "&bAqua"
+    color: AQUA
+    wool-color: 9
+  WHITE:
+    display: "&fWhite"
+    color: WHITE
+    wool-color: 0
+  PINK:
+    display: "&dPink"
+    color: LIGHT_PURPLE
+    wool-color: 6
+  GRAY:
+    display: "&7Gray"
+    color: GRAY
+    wool-color: 7
+
+messages:
+  no-permission: "&cYou don't have permission to do that."
+  arena-not-found: "&cArena &e{arena} &cnot found."
+  arena-full: "&cThis arena is full."
+  arena-in-game: "&cThis arena is already in game."
+  game-joined: "&aYou joined arena &e{arena}&a!"
+  game-left: "&aYou left the arena."
+  bed-broken: "&c{team}'s &cbed was destroyed by &e{player}&c!"
+  bed-broken-self: "&cYour bed was destroyed by &e{player}&c!"
+  player-killed: "&e{killer} &7eliminated &e{player}&7!"
+  player-fell: "&e{player} &7fell into the void!"
+  game-start: "&aThe game has started!"
+  game-end: "&6{team} &awon the game!"
+  final-kill: "&c&lFINAL KILL! &e{killer} &7eliminated &e{player}&7!"
+  team-eliminated: "&c{team} &7team has been eliminated!"
