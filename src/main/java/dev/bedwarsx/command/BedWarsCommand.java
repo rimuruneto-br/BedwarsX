@@ -13,6 +13,17 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
+/**
+ * Comando administrativo: /bwadm
+ * IMPORTANTE: Este é o comando de ADMIN, não conflita com /bw (jogador)
+ * 
+ * Comandos Admin:
+ * - Arena management
+ * - NPC management
+ * - Reload config
+ * - Force start/stop
+ * - View stats
+ */
 public class BedWarsCommand implements CommandExecutor, TabCompleter {
 
     private final BedWarsX plugin;
@@ -23,6 +34,15 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // FIXO: Validação de Player antes de usar
+        if (!(sender instanceof Player) && args.length > 0 && 
+            !args[0].equalsIgnoreCase("help") && 
+            !args[0].equalsIgnoreCase("reload") &&
+            !args[0].equalsIgnoreCase("stats")) {
+            sender.sendMessage(ChatUtil.color("&c[BedWarsX] Este comando requer que você esteja em-jogo!"));
+            return true;
+        }
+
         if (args.length == 0) {
             sendHelp(sender);
             return true;
@@ -38,32 +58,32 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
             case "forcestart": handleForceStart(sender, args); break;
             case "forcestop": handleForceStop(sender, args); break;
             default:
-                ChatUtil.send((Player) sender, "&cUnknown subcommand. Use &e/bw help&c.");
+                sender.sendMessage(ChatUtil.color("&cSubcomando desconhecido. Use &e/bwadm help&c."));
         }
         return true;
     }
 
     private void sendHelp(CommandSender sender) {
         sender.sendMessage(ChatUtil.color("&6&l━━━ BedWarsX Admin ━━━"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena create <id> &7- Create arena"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena delete <id> &7- Delete arena"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena setlobby <id> &7- Set arena lobby"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena setspawn <id> <team> &7- Set team spawn"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena setbed <id> <team> &7- Set team bed"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena addgen <id> <iron|gold|diamond|emerald> &7- Add generator"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena addteam <id> <team> &7- Enable team"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena enable <id> &7- Mark arena as ready"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena info <id> &7- Arena info"));
-        sender.sendMessage(ChatUtil.color("&e/bw arena list &7- List arenas"));
-        sender.sendMessage(ChatUtil.color("&e/bw setlobby &7- Set main lobby"));
-        sender.sendMessage(ChatUtil.color("&e/bw npc create <id> <name> <type> &7- Create NPC"));
-        sender.sendMessage(ChatUtil.color("&e/bw npc delete <id> &7- Delete NPC"));
-        sender.sendMessage(ChatUtil.color("&e/bw npc setskin <id> <value> <signature> &7- Set skin"));
-        sender.sendMessage(ChatUtil.color("&e/bw npc list &7- List NPCs"));
-        sender.sendMessage(ChatUtil.color("&e/bw reload &7- Reload config"));
-        sender.sendMessage(ChatUtil.color("&e/bw forcestart <arena> &7- Force start game"));
-        sender.sendMessage(ChatUtil.color("&e/bw forcestop <arena> &7- Force stop game"));
-        sender.sendMessage(ChatUtil.color("&e/bw stats [player] &7- View stats"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena create <id> &7- Criar arena"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena delete <id> &7- Deletar arena"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena setlobby <id> &7- Set arena lobby"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena setspawn <id> <team> &7- Set team spawn"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena setbed <id> <team> &7- Set team bed"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena addgen <id> <iron|gold|diamond|emerald> &7- Add generator"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena addteam <id> <team> &7- Enable team"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena enable <id> &7- Mark arena as ready"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena info <id> &7- Arena info"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm arena list &7- List arenas"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm setlobby &7- Set main lobby"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm npc create <id> <name> <type> &7- Create NPC"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm npc delete <id> &7- Delete NPC"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm npc setskin <id> <value> <signature> &7- Set skin"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm npc list &7- List NPCs"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm reload &7- Reload config"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm forcestart <arena> &7- Force start game"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm forcestop <arena> &7- Force stop game"));
+        sender.sendMessage(ChatUtil.color("&e/bwadm stats [player] &7- View stats"));
     }
 
     private void handleArena(CommandSender sender, String[] args) {
@@ -73,7 +93,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length < 2) {
-            sender.sendMessage(ChatUtil.color("&cUsage: /bw arena <create|delete|list|info|...> [args]"));
+            sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena <create|delete|list|info|...> [args]"));
             return;
         }
 
@@ -81,17 +101,17 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
 
         switch (sub) {
             case "create": {
-                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena create <id>")); return; }
+                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena create <id>")); return; }
                 Arena arena = plugin.getArenaManager().createArena(args[2]);
                 if (arena == null) {
                     sender.sendMessage(ChatUtil.color("&cArena &e" + args[2] + " &calready exists!"));
                 } else {
-                    sender.sendMessage(ChatUtil.color("&aArena &e" + args[2] + " &acreated! Now configure it with /bw arena set* commands."));
+                    sender.sendMessage(ChatUtil.color("&aArena &e" + args[2] + " &acreated! Now configure it with /bwadm arena set* commands."));
                 }
                 break;
             }
             case "delete": {
-                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena delete <id>")); return; }
+                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena delete <id>")); return; }
                 boolean deleted = plugin.getArenaManager().deleteArena(args[2]);
                 sender.sendMessage(deleted
                         ? ChatUtil.color("&aArena &e" + args[2] + " &adeleted.")
@@ -107,7 +127,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
                 break;
             }
             case "info": {
-                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena info <id>")); return; }
+                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena info <id>")); return; }
                 Arena a = plugin.getArenaManager().getArena(args[2]);
                 if (a == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
                 sender.sendMessage(ChatUtil.color("&6&l━━━ Arena: " + a.getId() + " ━━━"));
@@ -126,7 +146,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
             }
             case "setlobby": {
                 if (!(sender instanceof Player)) { sender.sendMessage("In-game only."); return; }
-                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena setlobby <id>")); return; }
+                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena setlobby <id>")); return; }
                 Arena a = plugin.getArenaManager().getArena(args[2]);
                 if (a == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
                 a.setLobby(((Player)sender).getLocation());
@@ -136,7 +156,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
             }
             case "setspawn": {
                 if (!(sender instanceof Player)) { sender.sendMessage("In-game only."); return; }
-                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena setspawn <id> <team>")); return; }
+                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena setspawn <id> <team>")); return; }
                 BedWarsTeam team = BedWarsTeam.fromString(args[3]);
                 if (team == null) { sender.sendMessage(ChatUtil.color("&cInvalid team.")); return; }
                 boolean set = plugin.getArenaManager().setTeamSpawn(args[2], team, ((Player)sender).getLocation());
@@ -146,7 +166,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
             }
             case "setbed": {
                 if (!(sender instanceof Player)) { sender.sendMessage("In-game only."); return; }
-                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena setbed <id> <team>")); return; }
+                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena setbed <id> <team>")); return; }
                 BedWarsTeam team = BedWarsTeam.fromString(args[3]);
                 if (team == null) { sender.sendMessage(ChatUtil.color("&cInvalid team.")); return; }
                 boolean set = plugin.getArenaManager().setTeamBed(args[2], team, ((Player)sender).getLocation());
@@ -156,14 +176,14 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
             }
             case "addgen": {
                 if (!(sender instanceof Player)) { sender.sendMessage("In-game only."); return; }
-                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena addgen <id> <iron|gold|diamond|emerald>")); return; }
+                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena addgen <id> <iron|gold|diamond|emerald>")); return; }
                 boolean added = plugin.getArenaManager().addGenerator(args[2], args[3], ((Player)sender).getLocation());
                 sender.sendMessage(added ? ChatUtil.color("&a" + args[3] + " generator added!")
                         : ChatUtil.color("&cFailed. Check arena ID and type."));
                 break;
             }
             case "addteam": {
-                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena addteam <id> <team>")); return; }
+                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena addteam <id> <team>")); return; }
                 Arena a = plugin.getArenaManager().getArena(args[2]);
                 if (a == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
                 BedWarsTeam team = BedWarsTeam.fromString(args[3]);
@@ -174,7 +194,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
                 break;
             }
             case "enable": {
-                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena enable <id>")); return; }
+                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena enable <id>")); return; }
                 Arena a = plugin.getArenaManager().getArena(args[2]);
                 if (a == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
                 if (!plugin.getArenaManager().isArenaComplete(a)) {
@@ -188,7 +208,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
                 break;
             }
             case "setname": {
-                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena setname <id> <name>")); return; }
+                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena setname <id> <name>")); return; }
                 Arena a = plugin.getArenaManager().getArena(args[2]);
                 if (a == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
                 a.setDisplayName(args[3]);
@@ -197,12 +217,16 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
                 break;
             }
             case "setmaxplayers": {
-                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bw arena setmaxplayers <id> <amount>")); return; }
+                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm arena setmaxplayers <id> <amount>")); return; }
                 Arena a = plugin.getArenaManager().getArena(args[2]);
                 if (a == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
-                a.setMaxPlayers(Integer.parseInt(args[3]));
-                plugin.getArenaManager().saveArenas();
-                sender.sendMessage(ChatUtil.color("&aMax players set to &e" + args[3]));
+                try {
+                    a.setMaxPlayers(Integer.parseInt(args[3]));
+                    plugin.getArenaManager().saveArenas();
+                    sender.sendMessage(ChatUtil.color("&aMax players set to &e" + args[3]));
+                } catch (NumberFormatException e) {
+                    sender.sendMessage(ChatUtil.color("&cInvalid number: " + args[3]));
+                }
                 break;
             }
             default:
@@ -223,49 +247,61 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(plugin.getConfigManager().getMessage("no-permission"));
             return;
         }
+        
+        if (args.length < 2) { 
+            sender.sendMessage(ChatUtil.color("&cUsage: /bwadm npc <create|delete|setskin|list|link> [args]")); 
+            return; 
+        }
+        
         if (!(sender instanceof Player) && !args[1].equalsIgnoreCase("list")) {
             sender.sendMessage("In-game only for NPC commands.");
             return;
         }
-
-        if (args.length < 2) { sender.sendMessage(ChatUtil.color("&cUsage: /bw npc <create|delete|setskin|list> [args]")); return; }
 
         String sub = args[1].toLowerCase();
         Player player = sender instanceof Player ? (Player) sender : null;
 
         switch (sub) {
             case "create": {
-                if (args.length < 5) { sender.sendMessage(ChatUtil.color("&cUsage: /bw npc create <id> <name> <type>")); return; }
+                if (player == null) { sender.sendMessage("In-game only."); return; }
+                if (args.length < 5) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm npc create <id> <name> <type>")); return; }
                 String id = args[2];
                 String name = args[3].replace("_", " ");
                 String type = args[4];
 
+                // FIXO: Validação de null para player
                 BedWarsNPC npc = plugin.getNpcManager().createNPC(id, name, player.getLocation(), "", "", type);
                 if (npc != null) {
                     plugin.getNpcManager().getNpcs().add(npc);
                     plugin.getNpcManager().spawnNPCForAll(npc);
                     plugin.getNpcManager().saveNPC(npc);
                     ChatUtil.send(player, "&aNPC &e" + id + " &acreated at your location.");
-                    ChatUtil.send(player, "&7Type: &f" + type + " &7| Use &e/bw npc setskin &7to set skin.");
+                    ChatUtil.send(player, "&7Type: &f" + type + " &7| Use &e/bwadm npc setskin &7to set skin.");
                 } else {
                     ChatUtil.send(player, "&cFailed to create NPC.");
                 }
                 break;
             }
             case "delete": {
-                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bw npc delete <id>")); return; }
+                if (args.length < 3) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm npc delete <id>")); return; }
+                // FIXO: Validação antes de deletar
+                BedWarsNPC npc = plugin.getNpcManager().getNPCById(args[2]);
+                if (npc == null) {
+                    sender.sendMessage(ChatUtil.color("&cNPC não encontrado: " + args[2]));
+                    return;
+                }
                 plugin.getNpcManager().deleteNPC(args[2]);
                 sender.sendMessage(ChatUtil.color("&aNPC &e" + args[2] + " &adeleted."));
                 break;
             }
             case "setskin": {
-                if (args.length < 5) { sender.sendMessage(ChatUtil.color("&cUsage: /bw npc setskin <id> <value> <signature>")); return; }
+                if (args.length < 5) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm npc setskin <id> <value> <signature>")); return; }
+                // FIXO: Validação de null
                 BedWarsNPC npc = plugin.getNpcManager().getNPCById(args[2]);
-                if (npc == null) { sender.sendMessage(ChatUtil.color("&cNPC not found.")); return; }
+                if (npc == null) { sender.sendMessage(ChatUtil.color("&cNPC não encontrado: " + args[2])); return; }
                 npc.setSkinValue(args[3]);
                 npc.setSkinSignature(args[4]);
                 plugin.getNpcManager().saveNPC(npc);
-                // Re-spawn for all
                 plugin.getNpcManager().despawnNPCForAll(npc);
                 plugin.getNpcManager().spawnNPCForAll(npc);
                 sender.sendMessage(ChatUtil.color("&aSkin updated for NPC &e" + args[2]));
@@ -273,16 +309,17 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
             }
             case "list": {
                 sender.sendMessage(ChatUtil.color("&6&lNPCs:"));
-                for (BedWarsNPC npc : plugin.getNpcManager().getNpcs()) {
-                    sender.sendMessage(ChatUtil.color("  &e" + npc.getId() + " &7- " + npc.getName()
-                            + " &7[" + npc.getType() + "]"));
+                for (BedWarsNPC n : plugin.getNpcManager().getNpcs()) {
+                    sender.sendMessage(ChatUtil.color("  &e" + n.getId() + " &7- " + n.getName()
+                            + " &7[" + n.getType() + "]"));
                 }
                 break;
             }
             case "link": {
-                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bw npc link <npcId> <arenaId>")); return; }
+                if (args.length < 4) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm npc link <npcId> <arenaId>")); return; }
+                // FIXO: Validação de null
                 BedWarsNPC npc = plugin.getNpcManager().getNPCById(args[2]);
-                if (npc == null) { sender.sendMessage(ChatUtil.color("&cNPC not found.")); return; }
+                if (npc == null) { sender.sendMessage(ChatUtil.color("&cNPC não encontrado: " + args[2])); return; }
                 npc.setLinkedArena(args[3]);
                 plugin.getNpcManager().saveNPC(npc);
                 sender.sendMessage(ChatUtil.color("&aNPC linked to arena &e" + args[3]));
@@ -302,14 +339,25 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleStats(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("bedwarsx.admin")) {
+            sender.sendMessage(plugin.getConfigManager().getMessage("no-permission"));
+            return;
+        }
+        
         String targetName = args.length > 1 ? args[1] : (sender instanceof Player ? sender.getName() : null);
-        if (targetName == null) { sender.sendMessage(ChatUtil.color("&cUsage: /bw stats <player>")); return; }
+        if (targetName == null) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm stats <player>")); return; }
 
         org.bukkit.entity.Player target = plugin.getServer().getPlayer(targetName);
         if (target == null) { sender.sendMessage(ChatUtil.color("&cPlayer not found.")); return; }
 
+        // FIXO: Validação de null para stats
         dev.bedwarsx.database.DatabaseManager.PlayerStats stats =
                 plugin.getDatabaseManager().getStats(target.getUniqueId());
+        
+        if (stats == null) {
+            sender.sendMessage(ChatUtil.color("&cNenhuma estatística encontrada para &e" + target.getName()));
+            return;
+        }
 
         sender.sendMessage(ChatUtil.color("&6&l━━━ Stats: " + target.getName() + " ━━━"));
         sender.sendMessage(ChatUtil.color("  &fWins: &a" + stats.getWins()));
@@ -324,7 +372,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
 
     private void handleForceStart(CommandSender sender, String[] args) {
         if (!sender.hasPermission("bedwarsx.admin")) { sender.sendMessage(plugin.getConfigManager().getMessage("no-permission")); return; }
-        if (args.length < 2) { sender.sendMessage(ChatUtil.color("&cUsage: /bw forcestart <arenaId>")); return; }
+        if (args.length < 2) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm forcestart <arenaId>")); return; }
         Arena arena = plugin.getArenaManager().getArena(args[1]);
         if (arena == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
         dev.bedwarsx.game.Game game = plugin.getGameManager().getGame(arena);
@@ -335,7 +383,7 @@ public class BedWarsCommand implements CommandExecutor, TabCompleter {
 
     private void handleForceStop(CommandSender sender, String[] args) {
         if (!sender.hasPermission("bedwarsx.admin")) { sender.sendMessage(plugin.getConfigManager().getMessage("no-permission")); return; }
-        if (args.length < 2) { sender.sendMessage(ChatUtil.color("&cUsage: /bw forcestop <arenaId>")); return; }
+        if (args.length < 2) { sender.sendMessage(ChatUtil.color("&cUsage: /bwadm forcestop <arenaId>")); return; }
         Arena arena = plugin.getArenaManager().getArena(args[1]);
         if (arena == null) { sender.sendMessage(ChatUtil.color("&cArena not found.")); return; }
         dev.bedwarsx.game.Game game = plugin.getGameManager().getGame(arena);
