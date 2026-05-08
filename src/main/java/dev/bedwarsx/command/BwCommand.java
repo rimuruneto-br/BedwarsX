@@ -25,7 +25,10 @@ import java.util.List;
 
 /**
  * Comando principal do jogador: /bw
- * Subcomandos: jogar, sair, assistir, stats, ajuda
+ * Subcomandos: jogar, sair, assistir, stats, top, ajuda
+ * 
+ * Este é o comando do JOGADOR (não admin)
+ * O comando admin é: /bwadm (BedWarsCommand)
  */
 public class BwCommand implements CommandExecutor, TabCompleter {
 
@@ -38,7 +41,7 @@ public class BwCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Lang.p("apenas-jogadores"));
+            sender.sendMessage(ChatUtil.color("&c[BedWarsX] Este comando é apenas para jogadores!"));
             return true;
         }
         Player player = (Player) sender;
@@ -108,7 +111,8 @@ public class BwCommand implements CommandExecutor, TabCompleter {
         if (args.length < 2) {
             // Auto-join arena disponível
             List<Arena> disponiveis = plugin.getArenaManager().getAvailableArenas();
-            if (disponiveis.isEmpty()) {
+            // FIXO: Validação de null/empty
+            if (disponiveis == null || disponiveis.isEmpty()) {
                 ChatUtil.send(player, Lang.p("sem-arenas-disponiveis"));
                 return;
             }
@@ -207,13 +211,21 @@ public class BwCommand implements CommandExecutor, TabCompleter {
 
         List<ProgressionManager.LeaderboardEntry> top = plugin.getProgressionManager().top(period, stat, 10);
         ChatUtil.send(player, "&6&lTop " + period.toLowerCase() + " &7- &e" + stat);
-        if (top.isEmpty()) {
+        
+        // FIXO: Validação de null e empty list
+        if (top == null || top.isEmpty()) {
             ChatUtil.send(player, "&7Ainda nao ha dados suficientes.");
             return;
         }
+        
         int pos = 1;
         for (ProgressionManager.LeaderboardEntry entry : top) {
-            ChatUtil.send(player, "&e#" + pos++ + " &f" + entry.name + " &7- &a" + entry.value);
+            // FIXO: Validação de entry null e entry.name null
+            if (entry == null || entry.name == null) {
+                continue;
+            }
+            String value = entry.value != null ? entry.value.toString() : "0";
+            ChatUtil.send(player, "&e#" + pos++ + " &f" + entry.name + " &7- &a" + value);
         }
     }
 
